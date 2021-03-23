@@ -19,26 +19,27 @@ def calc_letter_frequencies(text: str) -> list:
             char_frequencies[character] = 1
 
     # Sorting the dictionary in descending order of frequencies
-    char_frequencies_sorted: List[tuple] = sorted(char_frequencies.items(), key=lambda x: x[1], reverse=True)
+    char_frequencies_sorted: List[tuple] = sorted(char_frequencies.items(), key=lambda x: x[1])
     return char_frequencies_sorted
 
 
-# Creating tree of nodes
-def create_tree(text: str):
+# Creating hoffman tree 
+def create_tree(text: str) -> Node:
     char_frequencies = calc_letter_frequencies(text)
-    character_queue = queue.PriorityQueue()  # Creating priority queue to work with
-    for character in char_frequencies:
-        character_queue.put(character)  # Adding tuples for each character with their character and frequency to queue
-    while character_queue.qsize() > 1:  # Until there is only one node left (root node?)
-        left_node = character_queue.get()
-        right_node = character_queue.get()  # Getting values in queue with the smallest frequencies to create a node
-        name = left_node[1] + right_node[1]  # Calculating sum of frequencies for the node's name
-        name = Node(left_node, right_node)  # Creating the node
-    return character_queue.get()  # Returning first node in queue (root node of tree)
+    while len(char_frequencies) > 1:  # Until only root node remains
+        left_node = char_frequencies[0]
+        right_node = char_frequencies[1]  # Getting two nodes with lowest frequency
+        node = Node(left_node, right_node)  # Creating the node
+        frequencies_to_remove = [char_frequencies[0], char_frequencies[1]]
+        char_frequencies = char_frequencies - frequencies_to_remove  # Removing processed characters
+        node_frequency = (node, left_node[1] + right_node[1])
+        char_frequencies.append(node_frequency)  # Adding new node object back into frequency list
+        char_frequencies = sorted(char_frequencies.items(), key=lambda x: x[1])  # Sorting list by ascending frequency
+    root_node = char_frequencies[0][0]
+    return root_node
 
 
 # Testing code above with sample text
 if __name__ == '__main__':
     text = "text123 this is a test"
-    root_node = create_tree(text)
-    print(root_node)
+    print(calc_letter_frequencies(text))
