@@ -100,9 +100,12 @@ def compress_text(code_dict: dict, text: str):
     :return: The huffman code compressed version of the text
     """
     compressed_text = ""
+    file_name = ""
     for character in text:
-        compressed_text = compressed_text + code_dict.get(character)
-    return compressed_text
+        compressed_text += code_dict.get(character)
+    file_name += file[:-4] + "_compressed.txt"
+    compressed_file = open(file_name, "x")
+    compressed_file.write(compressed_text)
 
 
 # Tidying up testing
