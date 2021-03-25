@@ -92,12 +92,13 @@ def create_codes(root_node: Node) -> dict:
 
 
 # Compressing the text provided
-def compress_text(code_dict: dict, text: str):
+def compress_text(code_dict: dict, text: str, file):
     """
     Uses the previously generated optimised character codes to return an optimised string
     :param code_dict: The dictionary of characters and their codes
     :param text: The provided non-compressed text
-    :return: The huffman code compressed version of the text
+    :param file: The original file's name
+    :return: The file name of the compressed file
     """
     compressed_text = ""
     file_name = ""
