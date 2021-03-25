@@ -61,9 +61,19 @@ def create_huffman_tree(text: str) -> Node:
 
 # Creating codes for each letter
 def create_codes(root_node: Node) -> dict:
+    """
+    Assigns optimised huffman codes to each letter using the provided tree
+    :param root_node: The root node of the tree
+    :return: a dictionary of characters and their codes
+    """
     code_dict = {}
 
     def calc_code_for_char(code: str, node: Node) -> str:
+        """
+        Recursive function that checks assigns codes to nodes (characters)
+        :param code: The current code for the transversal path
+        :param node: The node being operated on
+        """
         # Checking if node exists
         if node is not None:
             # Checking if node provided is a leaf node (can have char assigned to it)
