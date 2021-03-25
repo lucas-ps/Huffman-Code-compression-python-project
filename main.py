@@ -105,6 +105,20 @@ def compress_text(code_dict: dict, text: str):
     return compressed_text
 
 
+# Compressing the text provided
+def compress_text(code_dict: dict, text: str):
+    """
+    Uses the previously generated optimised character codes to return an optimised string
+    :param code_dict: The dictionary of characters and their codes
+    :param text: The provided non-compressed text
+    :return: The huffman code compressed version of the text
+    """
+    compressed_text = ""
+    for character in text:
+        compressed_text = compressed_text + code_dict.get(character)
+    return compressed_text
+
+
 # Main code to run all of the above
 if __name__ == '__main__':
     text = ""
