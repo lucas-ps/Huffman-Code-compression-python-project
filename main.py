@@ -76,8 +76,7 @@ def create_codes(root_node: Node) -> dict:
         """
         # Checking if node exists
         if node is not None:
-            # Checking if node provided is a leaf node (can have char assigned to it)
-            print(node.frequency)
+            # Only assigns code if the node is a leaf node, if it's not, the node is checked
             if node.left is None and node.right is None:
                 if len(code) > 0:
                     code_dict[node.char] = code
