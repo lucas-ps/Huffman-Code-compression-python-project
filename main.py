@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 from Node import Node
 import queue
 import heapq
+from heapq import heappop, heappush
 
 
 def get_text_from_file(file: str) -> str:
@@ -42,8 +43,10 @@ def create_huffman_tree(text: str) -> Node:
     char_frequencies = calc_letter_frequencies(text)
     # Creating queue of letters and their frequencies
     queue = []
-    for character, frequency in char_frequencies.items():
-        queue.append(Node(character, frequency))
+    for character in char_frequencies:
+        char = character[0]
+        frequency = character[1]
+        queue.append(Node(char, frequency))
     heapq.heapify(queue)
 
     while len(queue) > 1:  # Until only root node remains
@@ -51,9 +54,32 @@ def create_huffman_tree(text: str) -> Node:
         left_node = heappop(queue)
         right_node = heappop(queue)
         combined_frequency_of_children = left_node.frequency + right_node.frequency
-        heappush(queue, Node(None, left_node, right_node, combined_frequency_of_children))
+        heappush(queue, Node(None, combined_frequency_of_children, left_node, right_node))
 
     return queue[0]  # Returning root node of tree
+
+
+# Creating codes for each letter
+def create_codes(root_node: Node) -> dict:
+    code_dict = {}
+
+    def calc_code_for_char(code: str, node: Node) -> str:
+        # Checking if node exists
+        if node is not None:
+            # Checking if node provided is a leaf node (can have char assigned to it)
+            print(node.frequency)
+            if node.left is None and node.right is None:
+                if len(code) > 0:
+                    code_dict[node.char] = code
+                else:
+                    code_dict[node.char] = '1'
+            calc_code_for_char(code + '0', node.left)
+            calc_code_for_char(code + '1', node.right)
+        else:
+            return
+
+    calc_code_for_char("", root_node)
+    return code_dict
 
 
 # Main code to run all of the above
@@ -66,3 +92,5 @@ if __name__ == '__main__':
         except:
             print("File '" + file + "' was not found, or the file was empty. Please enter a valid filename")
     root_node = create_huffman_tree(text)
+    codes = create_codes(root_node)
+    print(codes)
