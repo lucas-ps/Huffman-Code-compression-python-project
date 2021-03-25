@@ -104,9 +104,15 @@ def compress_text(code_dict: dict, text: str, file):
     file_name = ""
     for character in text:
         compressed_text += code_dict.get(character)
-    file_name += file[:-4] + "_compressed.txt"
-    compressed_file = open(file_name, "x")
-    compressed_file.write(compressed_text)
+    file_name += file[:-4] + "_compressed"
+
+    # Writing to compressed file in binary
+    byte_array = bytearray()
+    for i in range(0, len(compressed_text), 8):
+        byte_array.append(int(compressed_text[i:i + 8], 2))
+    with open(file_name, "wb") as compressed_file:
+        compressed_file.write(byte_array)
+    return file_name
 
 
 # Tidying up testing
