@@ -116,6 +116,33 @@ def compress_text(code_dict: dict, text: str, file):
             compressed_file.write(item.to_bytes(2, byteorder='big'))
 
     return file_name
+    # TODO: Add letter frequencies to generate tree later for decompression
+
+
+# Decompressing files
+def decompress_text(code_dict, compressed_file):
+    with open(compressed_file, "rb") as compressed_file:
+        byte_array = bytearray(compressed_file.read())
+
+    compressed_text = ""
+    for i in byte_array:
+        compressed_text += (bin(i))
+    list_of_codes = compressed_text.split("0b")
+    for i in range(len(list_of_codes)):
+        list_of_codes[i] = "0b" + list_of_codes[i]
+
+    decoded_text = ""
+    # Converting string values in code_dict to binary values
+    for code in code_dict:
+        code_dict[code] = bin(int(code_dict.get(code), base=2))
+    # Reversing dictionary values so it can be used for decoding
+    code_dict = dict(zip(code_dict.values(), code_dict.keys()))
+    print(code_dict)
+    #print(list_of_codes)
+    for code in list_of_codes:
+        decoded_text += str(code_dict.get(code))
+
+    print(decoded_text)
 
 
 # Tidying up testing
