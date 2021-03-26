@@ -164,9 +164,11 @@ def test_program():
     compressed_file_size = os.path.getsize(compressed_file)
     reduction = math.floor(((file_size - compressed_file_size) / file_size) * 100)
     print("File " + file + " has successfully been compressed. The resulting compressed file has been stored as the "
-        "file: " + compressed_file + " \n"
-        "The original file's size was " + str(file_size) + " bytes, the compressed version's size is " +
-        str(compressed_file_size) + " bytes, a " + str(reduction) + "% reduction in size")
+                           "file: " + compressed_file + " \n"
+                                                        "The original file's size was " + str(
+        file_size) + " bytes, the compressed version's size is " +
+          str(compressed_file_size) + " bytes, a " + str(reduction) + "% reduction in size")
+    decompress_text(codes, compressed_file)
 
 
 # Main code to run all of the above
