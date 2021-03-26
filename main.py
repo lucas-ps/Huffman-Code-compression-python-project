@@ -102,18 +102,19 @@ def compress_text(code_dict: dict, text: str, file):
     :param file: The original file's name
     :return: The file name of the compressed file
     """
+    compressed_array = []
     compressed_text = ""
     file_name = ""
     for character in text:
         compressed_text += code_dict.get(character)
+        compressed_array.append(int(code_dict.get(character), base=2))
     file_name += file[:-4] + "_compressed"
 
     # Writing to compressed file in binary
-    byte_array = bytearray()
-    for i in range(0, len(compressed_text), 8):
-        byte_array.append(int(compressed_text[i:i + 8], 2))
     with open(file_name, "wb") as compressed_file:
-        compressed_file.write(byte_array)
+        for item in compressed_array:
+            compressed_file.write(item.to_bytes(2, byteorder='big'))
+
     return file_name
 
 
