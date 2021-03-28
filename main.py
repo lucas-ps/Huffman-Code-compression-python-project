@@ -121,28 +121,26 @@ def compress_text(text: str, file):
 
 # Decompressing files
 def decompress_text(code_dict, compressed_file):
+    binary_input = BitArray()
     with open(compressed_file, "rb") as compressed_file:
-        byte_array = bytearray(compressed_file.read())
+        raw_binary = compressed_file.read()
 
-    compressed_text = ""
-    for i in byte_array:
-        compressed_text += (bin(i))
-    list_of_codes = compressed_text.split("0b")
-    for i in range(len(list_of_codes)):
-        list_of_codes[i] = "0b" + list_of_codes[i]
+    binary_string = ""
+    decoded_string = ""
 
-    decoded_text = ""
-    # Converting string values in code_dict to binary values
-    for code in code_dict:
-        code_dict[code] = bin(int(code_dict.get(code), base=2))
-    # Reversing dictionary values so it can be used for decoding
-    code_dict = dict(zip(code_dict.values(), code_dict.keys()))
-    print(code_dict)
-    #print(list_of_codes)
-    for code in list_of_codes:
-        decoded_text += str(code_dict.get(code))
+    # Extracting one bit at a time until a code match for the character has been found
+    for code in BitArray(raw_binary).bin:
+        binary_string += str(code)
+        for character in code_dict:
+            if code_dict[character] == binary_string:
+                decoded_string += character
+                binary_string = ""
 
-    print(decoded_text)
+    decompressed_filename = str(compressed_file.name)+ "_decompressed.txt"
+    with open(decompressed_filename, "w") as decompressed_file:
+        decompressed_file.write(decoded_string)
+
+    return decompressed_filename
 
 
 # Tidying up testing
