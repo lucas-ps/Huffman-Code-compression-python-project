@@ -157,16 +157,22 @@ def test_program():
     print("Generating codes using the generated tree...")
     codes = create_codes(root_node)
     print("Compressing text...\n")
-    compressed_file = compress_text(codes, text, file)
+    compressed_file = compress_text(text, file)
     file_size = os.path.getsize(file)
     compressed_file_size = os.path.getsize(compressed_file)
     reduction = math.floor(((file_size - compressed_file_size) / file_size) * 100)
     print("File " + file + " has successfully been compressed. The resulting compressed file has been stored as the "
-                           "file: " + compressed_file + " \n"
-                                                        "The original file's size was " + str(
-        file_size) + " bytes, the compressed version's size is " +
-          str(compressed_file_size) + " bytes, a " + str(reduction) + "% reduction in size")
-    decompress_text(codes, compressed_file)
+                           "file: " + compressed_file + " \nThe original file's size was " + str(
+        file_size) + " bytes, the compressed "
+                     "version's size is " + str(compressed_file_size) + " bytes, a " + str(
+        reduction) + "% reduction in size\n")
+    print("Decompressing " + compressed_file + "...")
+    decompressed_file = decompress_text(codes, compressed_file)
+    decompressed_file_size = os.path.getsize(decompressed_file)
+    print(compressed_file + " successfully decompressed. The original file's size was " + str(file_size) + " bytes, the"
+                            "decompressed file's size is " + str(decompressed_file_size) + " bytes, if these numbers are"
+                            " equal, then no data was lost in compression / decompression.\n"
+                            "The decompressed file has been stored as: " + decompressed_file)
 
 
 # Main code to run all of the above
