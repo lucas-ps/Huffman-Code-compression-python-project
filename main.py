@@ -93,10 +93,9 @@ def create_codes(root_node: Node) -> dict:
 
 
 # Compressing the text provided
-def compress_text(code_dict: dict, text: str, file):
+def compress_text(text: str, file):
     """
     Uses the previously generated optimised character codes to create a file with the compressed text
-    :param code_dict: The dictionary of characters and their codes
     :param text: The provided non-compressed text
     :param file: The original file's name
     :return: The file name of the compressed file
