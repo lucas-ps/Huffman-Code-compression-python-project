@@ -11,9 +11,7 @@ class Node:
         self.right = right
         self.frequency = frequency
 
-    # Override the `__lt__()` function to make `Node` class work with priority queue
-    # such that the highest priority item has the lowest frequency
-    # TODO: Check this
+    # Defines the behaviour of the less-than operator, overrides the `__lt__()` function to ensure heapq works as
+    # expected
     def __lt__(self, other):
         return self.frequency < other.frequency
-
