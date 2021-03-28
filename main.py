@@ -81,10 +81,9 @@ def create_codes(root_node: Node) -> dict:
             if node.left is None and node.right is None:
                 if len(code) > 0:
                     code_dict[node.char] = code
-                else:
-                    code_dict[node.char] = '1'
-            calc_code_for_char(code + '0', node.left)
-            calc_code_for_char(code + '1', node.right)
+            else:
+                calc_code_for_char(code + '0', node.left)
+                calc_code_for_char(code + '1', node.right)
         else:
             return
 
