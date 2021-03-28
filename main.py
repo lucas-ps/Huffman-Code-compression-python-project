@@ -4,7 +4,7 @@ import heapq
 from heapq import heappop, heappush
 import os
 import math
-
+from bitstring import BitArray
 
 def get_text_from_file(file: str) -> str:
     """
@@ -104,18 +104,16 @@ def compress_text(text: str, file):
     :param file: The original file's name
     :return: The file name of the compressed file
     """
-    compressed_array = []
-    compressed_text = ""
-    file_name = ""
-    for character in text:
-        compressed_text += code_dict.get(character)
-        compressed_array.append(int(code_dict.get(character), base=2))
-    file_name += file[:-4] + "_compressed"
 
-    # Writing to compressed file in binary
-    with open(file_name, "wb") as compressed_file:
-        for item in compressed_array:
-            compressed_file.write(item.to_bytes(2, byteorder='big'))
+    file_name = file + "_compressed.bin"
+    code_dict = create_codes(create_huffman_tree(text))
+
+    # Adding each character's code to a bitarray and writing it all to a file
+    binary_output = BitArray()
+    for character in text:
+        binary_output.append('0b'+code_dict[character])
+    with open(file_name,"wb+") as bin_file:
+        bin_file.write(binary_output.tobytes())
 
     return file_name
     # TODO: Add letter frequencies to generate tree later for decompression
