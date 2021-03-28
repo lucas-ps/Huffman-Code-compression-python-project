@@ -48,14 +48,19 @@ def create_huffman_tree(text: str) -> Node:
         char = character[0]
         frequency = character[1]
         queue.append(Node(char, frequency))
-    heapq.heapify(queue)
+    heapq.heapify(queue)  # Sorting queue in descending order of frequencies
 
     while len(queue) > 1:  # Until only root node remains
+        testing_output = []
+        for item in queue:
+            testing_output.append((item.char, "", str(item.frequency)))
+        # print(testing_output) # for visualising iterations
         # Choosing 2 letters with lowest frequencies for child nodes, removing them from queue
         left_node = heappop(queue)
         right_node = heappop(queue)
         combined_frequency_of_children = left_node.frequency + right_node.frequency
         heappush(queue, Node(None, combined_frequency_of_children, left_node, right_node))
+        heapq.heapify(queue)
 
     return queue[0]  # Returning root node of tree
 
