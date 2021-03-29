@@ -12,6 +12,7 @@ def get_text_from_file(file: str) -> str:
     """
     :return: String of text data in provided file
     """
+    print("\nLoading text as string from file: " + file + "...")
     file_data = open(file, "r").readlines()
     file_data_str = ''.join(map(str, file_data))
     return file_data_str
@@ -24,6 +25,7 @@ def calc_letter_frequencies(text: str) -> list:
     :param text: The provided string text
     :return: A list with characters and their frequencies (stored as tuples)
     """
+    print("Calculating letter frequencies in text provided...")
     char_frequencies: Dict[str, int] = {}  # Creating dictionary to store characters (str) and their frequencies (int)
     for character in text:
         if character in char_frequencies:
@@ -46,12 +48,14 @@ def create_huffman_tree(text: str) -> Node:
     char_frequencies = calc_letter_frequencies(text)
     # Creating queue of letters and their frequencies
     queue = []
+    print("Generating character frequency priority queue for tree generation...")
     for character in char_frequencies:
         char = character[0]
         frequency = character[1]
         queue.append(Node(char, frequency))
     heapq.heapify(queue)  # Sorting queue in descending order of frequencies
 
+    print("Generating huffman tree...")
     while len(queue) > 1:  # Until only root node remains
         testing_output = []
         for item in queue:
@@ -75,7 +79,7 @@ def create_codes(root_node: Node) -> dict:
     :return: a dictionary of characters and their codes
     """
     code_dict = {}
-
+    print("Creating code dictionary from tree provided...")
     def calc_code_for_char(code: str, node: Node) -> str:
         """
         Recursive function that checks assigns codes to nodes (characters)
@@ -113,18 +117,27 @@ def compress_text(text: str, file, code_dict = None):
 
     # Adding each character's code to a bitarray and writing it all to a file
     binary_output = BitArray()
+    print("Encoding text using code dictionary...")
     for character in text:
         binary_output.append('0b' + code_dict[character])
     print("Writing encoded text to: " + file_name + "...")
     with open(file_name, "wb+") as bin_file:
         bin_file.write(binary_output.tobytes())
-
+    print("Writing huffman character codes to: " + file_name + "_codes.json...")
+    with open(file_name + "_codes.json", 'w') as code_file:
+        code_file.write(json.dumps(code_dict))
     return file_name
 
 
 # Decompressing files
-def decompress_text(code_dict, compressed_file):
-    binary_input = BitArray()
+def decompress_text(compressed_file, code_dict=None):
+    """
+    Reads the provided compressed file and it's character codes file, decodes, and writes decoded data to new file
+    :param compressed_file: The filename of the previously compressed file to be decompressed
+    :param code_dict: Optional parameter, the dictionary with all character codes
+    :return: The filename of the decompressed file output
+    """
+    print("Reading compressed.bin file: " + compressed_file)
     with open(compressed_file, "rb") as compressed_file:
         raw_binary = compressed_file.read()
 
@@ -139,7 +152,8 @@ def decompress_text(code_dict, compressed_file):
                 decoded_string += character
                 binary_string = ""
 
-    decompressed_filename = str(compressed_file.name)+ "_decompressed.txt"
+    decompressed_filename = str(compressed_file.name) + "_decompressed.txt"
+    print("Writing decoded text to .txt file: " + decompressed_filename + "...")
     with open(decompressed_filename, "w") as decompressed_file:
         decompressed_file.write(decoded_string)
 
