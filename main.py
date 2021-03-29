@@ -144,6 +144,15 @@ def decompress_text(compressed_file, code_dict=None):
     binary_string = ""
     decoded_string = ""
 
+    if code_dict is None:
+        if code_dict is None:
+            json_file = (compressed_file.name + "_codes.json")
+            print("Loading JSON codes file: " + json_file + "...")
+            with open(json_file, 'r') as file:
+                data = file.read()
+                code_dict = json.loads(data)
+
+    print("Decoding binary using codes extracted...")
     # Extracting one bit at a time until a code match for the character has been found
     for code in BitArray(raw_binary).bin:
         binary_string += str(code)
