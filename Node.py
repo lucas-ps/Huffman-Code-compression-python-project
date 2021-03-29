@@ -11,7 +11,6 @@ class Node:
         self.right = right
         self.frequency = frequency
 
-    # Defines the behaviour of the less-than operator, overrides the `__lt__()` function to ensure heapq works as
-    # expected
+
     def __lt__(self, other):
         return self.frequency < other.frequency
