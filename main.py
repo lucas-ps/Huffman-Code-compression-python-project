@@ -173,33 +173,29 @@ def decompress_text(compressed_file, code_dict=None):
 def test_program():
     text = ""
     while text == "":
-        file = input("Which .txt file would you like to encode eg. file.txt (must be in current program directory)\n")
+        file = input('\033[1m' + "Which .txt file would you like to encode eg. file.txt (must be in current program "
+                     "directory)\n" + '\033[0m')
         try:
             text = get_text_from_file(file)
         except:
-            print("File '" + file + "' was not found, the file was empty, or was not a supported filetype (.txt). "
-                                    "Please enter a valid filename\n")
-    print("Generating tree for " + file + "...")
-    root_node = create_huffman_tree(text)
-    print("Generating codes using the generated tree...")
-    codes = create_codes(root_node)
-    print("Compressing text...\n")
+            print('\033[1m' + "File '" + file + "' was not found, the file was empty, or was not a supported filetype "
+                  "(.txt). Please enter a valid filename\n" + '\033[0m')
     compressed_file = compress_text(text, file)
     file_size = os.path.getsize(file)
     compressed_file_size = os.path.getsize(compressed_file)
-    reduction = math.floor(((file_size - compressed_file_size) / file_size) * 100)
-    print("File " + file + " has successfully been compressed. The resulting compressed file has been stored as the "
-                           "file: " + compressed_file + " \nThe original file's size was " + str(
-        file_size) + " bytes, the compressed "
-                     "version's size is " + str(compressed_file_size) + " bytes, a " + str(
-        reduction) + "% reduction in size\n")
-    print("Decompressing " + compressed_file + "...")
-    decompressed_file = decompress_text(codes, compressed_file)
+    json_file_size = os.path.getsize(compressed_file + "_codes.json")
+    total_size_compressed = compressed_file_size + json_file_size
+    reduction = math.floor(((file_size - compressed_file_size - json_file_size) / file_size) * 100)
+    print('\033[1m' + "\nFile " + file + " has successfully been compressed. The resulting compressed file has been "
+         "stored as the file: " + compressed_file + " \nThe original file's size was " + str(file_size) + " bytes, the "
+         "compressed version's size (including JSON file for character codes) is " + str(total_size_compressed) +
+         " bytes, a " + str(reduction) + "% reduction in size\n" + '\033[0m')
+    decompressed_file = decompress_text(compressed_file)
     decompressed_file_size = os.path.getsize(decompressed_file)
-    print(compressed_file + " successfully decompressed. The original file's size was " + str(file_size) + " bytes, the"
-                            "decompressed file's size is " + str(decompressed_file_size) + " bytes, if these numbers are"
-                            " equal, then no data was lost in compression / decompression.\n"
-                            "The decompressed file has been stored as: " + decompressed_file)
+    print('\033[1m' + "\n" + compressed_file + " successfully decompressed. The original file's size was " +
+          str(file_size) + " bytes, the decompressed file's size is " + str(decompressed_file_size) + " bytes, if these"
+          " numbers are equal, then no data was lost in compression / decompression.\nThe decompressed file has been "
+          "stored as: " + decompressed_file + '\033[0m')
 
 
 # Main code to run all of the above
