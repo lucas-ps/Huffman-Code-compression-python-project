@@ -29,7 +29,7 @@ Returns a list with characters in the provided string and their frequencies in d
 Creates all necessary nodes to construct a huffman coding tree, returns the root node of the tree
 #### create_codes(root_node: Node) 
 Assigns optimised huffman codes to each letter using the provided tree
-- ####def calc_code_for_char(code: str, node: Node)
+- def calc_code_for_char(code: str, node: Node)
   * Recursive function  within create_codes() that checks assigns codes to nodes (characters)
 #### def compress_text(text: str, file, code_dict = None)
 Uses generated optimised character codes to create a BIN file with the compressed text and a JSOn file with the 
