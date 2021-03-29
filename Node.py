@@ -13,4 +13,10 @@ class Node:
 
 
     def __lt__(self, other):
+        """
+         Defines the behaviour of the less-than operator, overrides the `__lt__()` function to ensure heapq orders nodes
+         as expected (ascending order of frequency)
+        :param other: The other node being compared
+        :return:
+        """
         return self.frequency < other.frequency
