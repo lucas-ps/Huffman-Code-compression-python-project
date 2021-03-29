@@ -1,5 +1,3 @@
-# Huffman Tree Compression Python
- 
 # Data Structures and Algorithms - Data Compression Coursework
 My coursework project for my Data Structures and Algorithms module - Huffman Coding compression algorithm
 in Python. Hosted on: [Github](https://github.com/lucas-ps/Huffman-Code-compression-python-project/)
