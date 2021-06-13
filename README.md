@@ -1,4 +1,4 @@
-# Data Structures and Algorithms - Data Compression Coursework
+# Huffman coding in Python
 My coursework project for my Data Structures and Algorithms module - Huffman Coding compression algorithm
 in Python. A demonstration of the program in use can be found [here](https://youtu.be/DxHaksITq3M). Hosted on: [Github](https://github.com/lucas-ps/Huffman-Code-compression-python-project/)
 
